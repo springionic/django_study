@@ -73,6 +73,62 @@
         '''
         /search/page/432 中的432需要经常性变换，
         '''
+        
+# url在app中处理
+- 如果把所有应用url都集中tulingxueyuan.urls.py中，可能导致文件的臃肿
+- 可以把urls的具体功能逐渐分散到每个app中
+    - 从django.conf.urls 导入include
+    - 注意此时re部分的写法
+    - 添加include导入
+- 使用方法
+    - 确保include是被导入的
+    - 写主路由的开头url
+    - 写子路由
+    - 编写视图
+- 同样可以使用参数
+
+# url中的嵌套参数
+- 捕获某个参数的一部分
+- 例如url   /index/page-3，需要捕获数字3为参数
+
+        url(r'index_1/(page-(\d+)/)?$', sv.myindex_1)   # 不太好
+        url(r'index_2/(?:page-(?P<page_numble>\d+)/)?$', sv.myindex_2)
+- 上面例子会得到两个参数，但 ?: 表明忽略此参数
+
+# 传递额为参数
+- 参数不仅仅来自以url，还可能是我们自己定义的内容
+
+        url(r'extrem/$', sv.extremParam, {'name': 'liuying'})
+        
+    - 附加参数同样适用于include语句，此时对include内所有都添加
+    
+# url的反向解析
+- 防止硬编码
+- 本质上是对每一个url进行命名
+- 以后再编码代码中使用url的值，原则上都应该使用反向解析
+
+
+# views 视图
+## 1.视图概述
+- 视图即视图函数，接收web请求并返回web响应的事物处理函数
+- 响应指符合http协议要求的任何内容，包括json，string，html等
+- 本章忽略事物处理，重点在如何返回处理结果上
+## 2.其它简单视图
+- django.http给我们提供的类很多和HttpResponse类似的简单视图，通过查看django.http源码我们可以看到啊
+- 此类视图使用方法基本相似，可以通过return语句直接反馈给浏览器
+- Http404为Exception子类，所以需要raise使用
+## 3.HttpResponse详解
+- 方法
+    - init：使用页面内容实例化HttpResponse对象
+    - write(content)：以文件的方式写
+    - flush(): 以文件的方式输出缓冲区
+    - set_cookie(key, value='', max_age=None, expires=None): 设置cookie
+        - key,value都是字符串类型
+        - max_age是一个整数，表示在指定秒数后过期
+        - expires是一个datetime或timedelta对象，会话将在这个指定的日期/时间过期
+        - max_age与expires二选一
+        - 如果不指定过期时间，则两个星期后过期
+    - delete_cookie(key): 删除指定的key的cookie，如果key不存在则什么也不发生
 
     
    
