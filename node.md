@@ -129,6 +129,75 @@
         - max_age与expires二选一
         - 如果不指定过期时间，则两个星期后过期
     - delete_cookie(key): 删除指定的key的cookie，如果key不存在则什么也不发生
-
-    
+## 4. HttpResponseRedirect
+- 重定向，服务器端跳转
+- 构造函数的第一个参数用来指定重定向的地址
+- 案例 ShowViews/views.py
+        
+        # 在 east/urls 中添加一个内容
+        url(r'^v10_1/', views.v10_1),
+        url(r'^v10_2/', views.v10_2),
+        url(r'^v11/', views.v11, name='v11'),
+        
+        # /east/ShowViews/views中添加内容
+        def v10_1(request):
+            return HttpResponseRedirect('/v11')
+        def v10_2(request):
+            return HttpResponseRedirect(reverse('v11'))
+        def v11(request):
+            return HttpResponse('哈哈哈，这是v11的访问返回！')
+## 5.Request对象
+- Request介绍
+    - 服务器接收到http协议的请求后，会根据报文创建HTTPRequest对象
+    - 视图函数的第一个参数是HTTPRequest对象
+    - 在django.http模块中定义了HTTPRequest对象的API
+- 属性
+    - 下面除非特别说明，属性都是只读的
+    - path：一个字符串，表示请求的页面的完整路径，不包含域名
+    - method：一个字符串，表示请求使用的HTTP方法，常用值包括：'GET', 'POST'
+    - encoding：一个字符串，表示提交的数据的编码方式
+        - 如果为None则表示使用浏览器的默认设置，一般为utf-8
+        - 这个属性是可写的，可以通过修改它来修改访问表单数据使用的编码
+    - GET：一个类似于字典的对象，包含get请求方式的所有参数
+    - POST：一个类似于字典的对象，包含post请求方式的所有参数  
+    - FILES：一个类似于字典的对象，包含所有的上传文件
+    - COOKIES：一个标准的Python字典，包含所有的cookie，键和值都为字符创
+    - session：一个既可读又可写的类似于字典的对象，表示当前的会话
+        - 只有当Django启用会话支持时才可用
+        - 详细内容见‘状态保持’
+    - 方法
+        - is_ajax(): 如果请求是通过XMLHttpRequest发起的，则返回True
+    - QueryDict对象
+        - 定义在django.http.QueryDict
+        - request对象的属性GET, POST都是QueryDict类型的对象
+        - 与python字典不同，QueryDict类型的对像用来处理一个键带有多个值的情况
+        - 方法get(): 根据键获取值
+            - 只能获取键的一个值
+            - 如果一个键同时拥有多个值，获取最后一个值
+        - 方法getlist(): 根据键获取值
+            - 将键的值以列表返回，可以获取一个键的多个值
+    - GET属性
+        - QueryDict类型的对象
+        - 包含get请求的所有参数
+        - 与url请求地址中的参数对应，位于 ? 后面
+        - 参数的格式是键值对，如 key1=value1
+        - 多个参数之间，使用 & 连接， 如 key1=value1&key2=value2
+        - 键是开发人员定下来的，值是可变的
+        - 案例 /views/v8_get
+    - POST属性
+        - QueryDict类型的对象
+        - 包含post请求的所有参数
+        - 与form表单中的控件对应
+        - 表单中控件必须有name属性，name为键，value为值
+            - checkbox存在一键多值的问题
+        - 键是开发人员定下来的，值是可变的
+        - 案例 /views/v9_post
+            - settings中设置模板位置(已经设置完毕)
+            - 设置get页面的urls和参数
+        - 添加文件templates/for_post.html
+        - 由于安全原因，需要在设置中安全选项中注释掉csrf设置
+        - 还有对模板的添加设置
+            
+                    
+                    
    
