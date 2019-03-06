@@ -197,7 +197,37 @@
         - 添加文件templates/for_post.html
         - 由于安全原因，需要在设置中安全选项中注释掉csrf设置
         - 还有对模板的添加设置
-            
-                    
+- 手动编写视图
+    - 实验目的：
+        - 利用django快捷函数手动编写视图处理函数
+        - 编写过程中理解视图运行原理
+    - 分析：
+        - django把所有请求信息封装于request
+        - django通过urls模块把相应请求跟事件处理函数链接起来，并把request作为参数传入
+        - 在相应的处理函数中，我们需要完成两部分   
+            - 处理业务
+            - 把结果封装并返回，我们可以使用简单HttPResponse，同样也
+        - 本案例不介绍业务处理，把目光集中在如何渲染结果并返回
+    - render(request, template_name[,context][,context_instance][,content_type])
+        - 使用模板和一个给定的上下文环境，返回一个渲染后的HttpResponse对象
+        - request：django的传入请求
+        - template_name：模板名称
+        - content_instance：上下文环境
+        - 案例参看代码 teacher_app/views/render_test 和 render2_test,render3_test
+    - render_to_response
+        - 根据给定的上下文字典渲染给定模板，返回渲染后的HttpResponse
+        - 案例 render4_test
+- 系统内建视图
+    - 系统内建视图，可以直接使用
+    - 案例 get404
+        - default.page_not_found(request, template_name='404.html')
+        - 系统引发Http404时触发
+        - 默认传request_path变量给模板，即导致错误的url
+        - debug = True则不会调用404，取而代之的是调试信息
+        - 404视图会被传递一个RequestContext对象并且可以访问模本上下文处理器提供的变量
+    - 500,403，400等不列举了
+## 基于类的视图
+- 难度和常用度问题
+- 略                    
                     
    

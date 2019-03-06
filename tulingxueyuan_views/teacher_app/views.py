@@ -38,3 +38,34 @@ def v9_post(request):
         rst += k + '-->' + v
         rst += ','
     return HttpResponse('Get value of Post is {0}!'.format(rst))
+
+def render_test(request):
+    # 环境变量
+    # c = dict()
+
+    rsp = render(request, 'render.html')
+    return rsp
+
+def render2_test(request):
+    c = dict()
+    c['name'] = 'LiuDaNa'
+    c['name2'] = 'LiLei'
+    rsp = render(request, 'render2.html', context=c)
+    return rsp
+
+def render3_test(request):
+    from django.template import loader
+    # 得到模板
+    t = loader.get_template('render2.html')
+    r = t.render({'name': '小明'})
+    return HttpResponse(r)
+
+def render4_test(request):
+    # 反馈回模板render2.html
+    rsp = render_to_response('render2.html', context={'name': '张三'})
+    return rsp
+
+def get404(request):
+    from django.views import defaults
+
+    return defaults.page_not_found(request, Exception)
