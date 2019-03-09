@@ -321,7 +321,44 @@
         - startwith：以...开头
         - endwith：以...结尾
     
-
+## 数据库表关系
+- 多表联查：利用多个表联合查找某一项信息或者多项信息
+- 1:1：OneToOne
+    - 建立关系，在模型任意一边即可，使用OneToOneField
+    - add：
+        - 添加没有关系的一边，直接实例化保存就可以
+                
+                s = School()
+                s.school_id = 1
+                s.school_name = 'tulingxueyuan'
+                s.save()
+        - 添加有关系的一边，使用create方法，或者使用实例化
+        
+                # 方法1
+                m = Manager()
+                m.manager_id = 10
+                m.manager_name = 'dana'
+                m.my_school = s
+                m.save()
+                
+                # 方法2
+                m = Manager.objects.create(manager_id=33,manager_name='sss',my_school=ss[0])
+        - query
+            - 有字表查母表，由字表的属性直接提取信息，逻辑很容易
+            
+                    Manager.objects.get(manager_name='dana').my_school.school_name
+            - 有母表查字表，使用双下划线
+                    
+                    s = School.objects.get(manager__manager_name='dana')
+            - change：
+                - 单个修改使用save即可
+                - 批量修改使用update
+                - 无论是对字表还是母表的修改
+            - delete：
+                - 直接使用delete删除
+- 1:N：OneToMany
+- N:N：ManyToMany
+## 开始使用项目 tlxy_db
 
                 
                     
