@@ -4,6 +4,7 @@ from django.db import models
 class School(models.Model):
     school_id = models.IntegerField()
     school_name = models.CharField(max_length=20)
+    # teacher_set
     # my_manager = models.OneToOneField(Manager)
 
     def __str__(self):
@@ -17,4 +18,14 @@ class Manager(models.Model):
 
     def __str__(self):
         return self.manager_name
+
+
+class Teacher(models.Model):
+    teacher_name = models.CharField(max_length=20)
+    my_school = models.ForeignKey('School')
+
+
+class Student(models.Model):
+    student_name = models.CharField(max_length=20)
+    teachers = models.ManyToManyField('Teacher')
 
