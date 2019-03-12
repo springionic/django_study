@@ -9,4 +9,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^one/', v.one),
+    url(r'^two/', v.two),
+    url(r'^three/', v.three)
 ]

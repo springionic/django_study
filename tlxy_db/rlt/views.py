@@ -5,3 +5,16 @@ from django.http import HttpResponse
 
 def one(request):
     return render(request, 'one.html')
+
+def two(request):
+    # 用来存放向模板中传输的数据
+    ct = dict()
+    ct['name'] = '王晓静'
+    ct['name2'] = '李晓静'
+    ct['name3'] = '张晓静'
+    return render(request, 'two.html', context=ct)
+
+def three(request):
+    ct = dict()
+    ct['score'] = [66, 77, 88, 86, 94, 55]
+    return render(request, 'three.html', context=ct)
