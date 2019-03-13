@@ -18,3 +18,15 @@ def three(request):
     ct = dict()
     ct['score'] = [66, 77, 88, 86, 94, 55]
     return render(request, 'three.html', context=ct)
+
+def four(request):
+    ct = dict()
+    ct['name'] = '王晓静'
+    return render(request, 'four.html', context=ct)
+
+def five(request):
+    return render(request, 'five.html')
+
+def five_post(request):
+    print(request.POST)
+    return render(request, 'one.html')
