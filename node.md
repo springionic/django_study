@@ -417,4 +417,27 @@
 - 在提交表单的时候，表单页面需要加上：{% csrf_token %}
 - 案例 five five_post
 
+
+## session(开始使用teacher_session)
+- 为了对应HTTP协议的无状态性
+- 用来保存用户比较敏感的信息
+- 属于request 的一个属性
+- 常用操作
+    - request.session.get(key, defaultValue)
+    - request.session.clear()  清除全部值
+    - request.session[key]=value  赋值
+    - request.session.flush()   删除当前会话且清除会话的cookie
+    - del request.session[key]  删除
+
+## 分页
+- django提供现成的分页器用来对结果进行分页
+- from django.core.paginator import Paginator 
+
+## Ajax
+
+## 基于类的视图
+
+# admin
+
+
     
