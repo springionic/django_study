@@ -9,4 +9,5 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^sess/', v.mySess),
+    url(r'^stu/', v.StudentListView.as_view())
 ]

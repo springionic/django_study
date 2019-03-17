@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models  import Student
 from django.core.paginator import Paginator
+from django.views.generic import ListView
 # Create your views here.
 
 def mySess(request):
@@ -33,3 +34,12 @@ def student(request):
     # 如果页码不存在，报异常的InvalidPage
     p.page(3)
     return stus
+
+class StudentListView(ListView):
+    """
+    需要设置连个主要内容
+    1. queryset: 数据来源集合
+    2. template_name：模板名称
+    """
+    queryset = Student.objects.all().filter(age=11)
+    template_name = 'student_list.html'
