@@ -443,8 +443,34 @@
     - 解决多重继承问题
 - ListView
 
+# admin (开始使用项目 myAdmin)
 
-# admin
+## 1.创建admin
+- settings中填入app
+- 打开 urls.py
+- 创建超级用户
+- 配置settings文件
+
+## 2.绑定管理模型
+- admin.py 中写法
+
+## 3.设置admin管理类
+- 实现方式(见admin.py内容)
+    - ModelAdmin
+    - 装饰器
+- 修改页面显示数量：list_per_page
+- 操作选项：actions_on_top/button
+- 控制列表中显示的内容：list_display=[]
+- 将方法作为列显示
+    - 函数必须有返回值
+    - 设置 short_description作为显示内容
+    - 排序使用admin_order_field
+- 关联对象
+    - 使用方法
+- 右侧过滤器
+- 搜索框
+- 站头，站标题，欢迎语
+
 
 
     
