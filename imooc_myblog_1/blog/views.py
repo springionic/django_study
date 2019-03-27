@@ -19,6 +19,7 @@ def edit_page(request, article_id):
         article = Article.objects.get(id=article_id)
         return render(request, 'blog/edit_page.html', {'article': article})
 
+# 表单按钮视图函数
 def edit_action(request):
     title = request.POST.get('title', 'TITLE')
     content = request.POST.get('content', 'CONTENT')
