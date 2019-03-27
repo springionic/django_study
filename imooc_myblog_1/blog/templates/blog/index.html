@@ -5,8 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-<h1>{{ article.title }}</h1>
-<h3>{{article.content }}</h3>
-<p>天之涯，地之角，知交半零落</p>
+<h1>
+<a href="{% url 'blog:edit_page' 0 %}">新文章</a>
+</h1>
+{% for article in articles %}
+<a href="{% url 'blog:article_page' article.id %}">{{ article.title }}</a>
+<br>
+{% endfor %}
 </body>
 </html>
