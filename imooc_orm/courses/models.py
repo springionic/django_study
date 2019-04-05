@@ -81,6 +81,95 @@ class AddressInfo(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True, verbose_name='地址')
     pid = models.ForeignKey('self', null=True, blank=True, verbose_name='自关联')
     # pid = models.ForeignKey('AddressInfo', null=True, blank=True, verbose_name='自关联')
+    note = models.CharField(max_length=200, null=True, blank=True, verbose_name='说明')
 
     def __str__(self):
         return self.address
+
+    # class Meta:
+    #     # 定义元数据
+    #     db_table = 'address'
+    #     ordering = ['pid']
+    #     verbose_name = '省市县地址信息'
+    #     verbose_name_plural = verbose_name
+        # # abstract = True
+        # permissions = (('定义好的权限', '权限说明'))
+        # managed = False
+        # unique_together = ('address', 'note')
+        # app_labels = 'courses'
+
+class Teacher(models.Model):
+    """讲师信息表"""
+    nickname = models.CharField(max_length=30, primary_key=True, db_index=True, verbose_name='昵称')
+    introduction = models.TextField(default='木有签名还！', verbose_name='简介')
+    fans = models.PositiveIntegerField(default='0', verbose_name='粉丝数')
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        verbose_name = '讲师信息表'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.nickname
+
+
+class Course(models.Model):
+    title = models.CharField(max_length=100, primary_key=True, db_index=True, verbose_name='课程名')
+    type = models.CharField(choices=((1, '实战课'), (2, '免费课'), (0, '其它')), max_length=1, default=0, verbose_name='课程类型')
+    price = models.PositiveSmallIntegerField(verbose_name='价格')
+    volume = models.BigIntegerField(verbose_name='销量')
+    online = models.DateField(verbose_name='上线时间',)
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='课程讲师', null=True, blank=True)  # 删除级联
+
+    class Meta:
+        verbose_name = '课程信息表'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '{}-{}'.format(self.get_type_display(), self.title)
+
+
+class Student(models.Model):
+    "学生信息表"
+    nickname = models.CharField(max_length=30, primary_key=True, db_index=True, verbose_name='昵称')
+    age = models.PositiveSmallIntegerField(verbose_name='年龄')
+    gender = models.CharField(choices=((1, '男'), (2, '女'), (0, '保密')), max_length=1, default=0, verbose_name='性别')
+    study_time = models.PositiveIntegerField(default='0', verbose_name='学习时长(h)')
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    course = models.ManyToManyField(Course, verbose_name='课程', null=True, blank=True)
+
+    class Meta:
+        verbose_name = '学生信息表'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.nickname
+
+
+class TeacherAssistant(models.Model):
+    "助教信息表"
+    nickname = models.CharField(max_length=30, primary_key=True, db_index=True, verbose_name='昵称')
+    hobby = models.CharField(max_length=100, null=True, verbose_name='爱好')
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    teacher = models.OneToOneField(Teacher, on_delete=models.SET_NULL, verbose_name='讲师', null=True, blank=True)
+
+    class Meta:
+        verbose_name = '助教信息表'
+        db_table = 'course_assistant'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.nickname
+
+
+
+
+

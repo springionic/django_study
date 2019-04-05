@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from courses.views import IndexView, AddressAPI
 
 urlpatterns = [
     # Examples:
@@ -7,4 +8,6 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^address/(\d+)$', AddressAPI.as_view(), name='address'),
 ]
